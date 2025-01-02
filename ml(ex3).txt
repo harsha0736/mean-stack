@@ -1,0 +1,74 @@
+ex3(a)
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn import preprocessing as p
+
+data = pd.read_csv("dataset.csv")
+
+le=p.LabelEncoder()
+
+data['dept']=le.fit_transform(data['dept'])
+data['ename']=le.fit_transform(data['ename'])
+
+
+X = data.drop("dept", axis=1)
+y = data["sal"]
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+X_train = X_train.fillna(X_train.mean())
+X_test = X_test.fillna(X_test.mean())
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+from sklearn.linear_model import LinearRegression
+a=LinearRegression()
+a.fit(X_train,y_train)
+print(a.predict(X_test))
+print(a.score(X_train,y_train))
+print(a.intercept_)
+print(a.coef_)
+print(a.coef_[0]*10+a.coef_[1]*3+a.intercept_)
+
+
+dataset.csv
+empno,ename,dept,sal
+101,pavan,manager,150000
+102,ragu,sales,50000
+103,sai,production,60000
+104,masthan,sales,450000
+---------------------------------------------------------
+3(b)
+import pandas as pd
+df=pd.read_csv('price.csv')
+import matplotlib.pyplot as plt
+plt.scatter(df['sqft'],df['price'])
+plt.xlabel('squarefeet')
+plt.ylabel('price')
+plt.show()
+from sklearn.linear_model import LinearRegression
+a=LinearRegression()
+x=df[['sqft']]
+y=df[['price']]
+a.fit(x,y)
+print(a.predict([[60]]))
+print(a.coef_)
+print(a.intercept_)
+
+price.csv
+
+sqft,price
+500,150000
+1000,200000
+1500,210000
+2000,250000
+
+
+
+------------------------------------------------------------------------------------------
+
